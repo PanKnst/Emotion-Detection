@@ -1,5 +1,5 @@
-"""Script that extracts,crops and stores images in black and white in a new folder using OpenCVs pre-trained Deep Neural
-Network.
+"""Script that extracts,crops and stores images in black and white in a new folder using OpenCVs Deep Neural
+Network (Pre-trained for face Detection).
 Script is adapted from several sources, with parts taken from each of the following:
 1. van Gent, P. (2016). Emotion Recognition With Python, OpenCV and a Face Dataset.
 A tech blog about fun things with Python and embedded electronics. Retrieved from:
