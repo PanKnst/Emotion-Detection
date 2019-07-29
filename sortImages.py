@@ -10,7 +10,6 @@ http://www.paulvangent.com/2016/04/01/emotion-recognition-with-python-opencv-and
 import glob
 import natsort
 from shutil import copyfile
-import os.path
 
 # All directories are the directories in which my files are stored, and would change accordingly.
 
