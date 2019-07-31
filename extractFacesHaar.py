@@ -11,12 +11,12 @@ import glob
 # All directories are the directories in which my files are stored, and would change accordingly.
 
 faceDet = cv2.CascadeClassifier("/Users/yenji/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
-emotions = ["neutral", "anger", "contempt", "disgust", "fear", "happy", "sadness", "surprise"] #Define emotions
+emotions = ["neutral", "anger", "disgust", "fear", "happy", "sadness", "surprise"] #Define emotions - Removed Contempt
 
 
 def detect_faces(emotion):
     print(emotion)
-    files = glob.glob("/Users/yenji/Desktop/Emotion-Detection/sorted_set/%s/*" %emotion) #Get list of all images with emotion
+    files = glob.glob("/Users/yenji/Desktop/Emotion-Detection/sorted_set_Haar/%s/*" %emotion) #Get list of all images with emotion
     filenumber = 0
     for f in files:
         frame = cv2.imread(f) #Open image

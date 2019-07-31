@@ -19,14 +19,15 @@ caffemodel_path = "/Users/yenji/opencv/samples/dnn/face_detector/res10_300x300_s
 
 # Read the model
 net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
-emotions = ["neutral", "anger", "contempt", "disgust", "fear", "happy", "sadness", "surprise"] #Define emotions
+emotions = ["neutral", "anger", "disgust", "fear", "happy", "sadness", "surprise"] #Define emotions
 
 
 def detect_faces(emotion):
     print(emotion)
-    files = glob.glob("/Users/yenji/Desktop/Emotion-Detection/sorted_set/%s/*" %emotion) #Get list of all images with emotion
+    files = glob.glob("/Users/yenji/Desktop/Emotion-Detection/sorted_set_DNN/%s/*" %emotion) #Get list of all images with emotion
     filenumber = 0
     for f in files:
+        print(str(f))
         frame = cv2.imread(f) #Open image
         (h, w) = frame.shape[:2]
         blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
@@ -42,7 +43,7 @@ def detect_faces(emotion):
             # filter out weak detections by ensuring the `confidence` is
             # greater than the minimum confidence
             # I have found that a confidence less than 0.95 gives wrong results
-            if confidence < 0.95:
+            if confidence < 0.5:
                 continue
 
             # compute the (x, y)-coordinates of the bounding box for the
