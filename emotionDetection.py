@@ -30,11 +30,11 @@ while(True):
         # Draw rectangle around face
         for (x, y, w, h) in face:  # get coordinates and size of rectangle containing face
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            gray = gray[y:y + h, x:x + w]
+            gray = gray[y:y + h, x:x + w] #Cut rectangle to face size
             gray = cv2.resize(gray, (350, 350))
-            label, confidence = fisher_face.predict(gray)
+            label, confidence = fisher_face.predict(gray) #Get current emotion in face
             cv2.putText(frame, emotions[label], (x, y),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 1)
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 1) #Put emotion found in face on rectangle containing face
 
     # Display the resulting frame
     cv2.imshow("Frame", frame)
