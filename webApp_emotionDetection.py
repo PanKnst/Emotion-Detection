@@ -37,8 +37,10 @@ def gen():
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         face = faceCascade.detectMultiScale(gray)
+        print (len(face))
+        #maybe need to create an array of faces instead of one face (dimensions get confused, which face are we talking about???)
 
-        if len(face) == 1:
+        if len(face) == 1: #Comment out to detect more than one face.
             # Draw rectangle around face
             for (x, y, w, h) in face:  # get coordinates and size of rectangle containing face
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
