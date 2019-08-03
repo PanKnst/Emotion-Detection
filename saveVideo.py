@@ -7,17 +7,22 @@ import cv2
 import os
 
 #Initialise video capture with OpenCV
-cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture(0)
+
+#Read from file. This should be updated so that it reads from the library
+cap = cv2.VideoCapture("/Users/yenji/Desktop/Emotion-Detection/Library/Output1.mov")
+
+#To remove, use os.remove(Directory of file to remove)
 
 width = int(cap.get(3))
 height = int(cap.get(4))
-print(width,height)
+print(width, height)
 
 path = "/Users/yenji/Desktop/Emotion-Detection"
 
 
 fourcc = cv2.VideoWriter_fourcc("C","J","P","G")
-Output = cv2.VideoWriter(os.path.join(path, "Output.mov"), fourcc, 10, (width, height))
+Output = cv2.VideoWriter(os.path.join(path, "Output2.mov"), fourcc, 5, (width, height))
 
 #Use pretrained face detection cascade classifier available with OpenCV
 cascadePath = "/Users/yenji/opencv/data/haarcascades/haarcascade_frontalface_default.xml"
@@ -40,7 +45,7 @@ while(True):
     for (x,y,w,h) in faces:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    Output.write(frame)
+    #Output.write(frame)
     # Display the resulting frame
     cv2.imshow("Frame", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
