@@ -6,20 +6,19 @@ with the emotion detected in the face printed on the rectangle.
 import cv2
 import imutils
 
-#Initialise video capture with OpenCV
-cap = cv2.VideoCapture(0)
-
-#Use pretrained face detection cascade classifier available with OpenCV
-faceCascade = cv2.CascadeClassifier("/Users/yenji/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
-
-#Use fisher_face face detector that has been trained to detect emotions.
-fisher_face = cv2.face.FisherFaceRecognizer_create()
-fisher_face.read('/Users/yenji/Desktop/Emotion-Detection/emotion_detection_model_Haar(fisher).xml')
-
-emotions = ["neutral", "anger", "disgust", "fear", "happy", "sadness", "surprise"]#Removed Contempt
-
 
 def emotionDetection():
+    # Initialise video capture with OpenCV
+    cap = cv2.VideoCapture(0)
+
+    # Use pretrained face detection cascade classifier available with OpenCV
+    faceCascade = cv2.CascadeClassifier("/Users/yenji/opencv/data/haarcascades/haarcascade_frontalface_default.xml")
+
+    # Use fisher_face face detector that has been trained to detect emotions.
+    fisher_face = cv2.face.FisherFaceRecognizer_create()
+    fisher_face.read('/Users/yenji/Desktop/Emotion-Detection/emotion_detection_model_Haar(fisher).xml')
+
+    emotions = ["neutral", "anger", "disgust", "fear", "happy", "sadness", "surprise"]  # Removed Contempt
 
     while(True):
         # Capture frame-by-frame
@@ -40,12 +39,13 @@ def emotionDetection():
                             cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 1) #Put emotion found in face on rectangle containing face
 
         # Display the resulting frame
-        cv2.imshow("Frame", frame)
+        cv2.imwrite('pic.jpg', frame)
+        ##
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + open('pic.jpg', 'rb').read() + b'\r\n')
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
-
-emotionDetection()

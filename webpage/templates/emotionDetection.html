@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--
+<h1>Face and emotion detection in Web!</h1>
+<form action="/button">
+    <input type = "submit" value = "Click me" />
+</form>
+{% if variable %}
+src = "{{ url_for('emotionDetectionTest') }}"
+{% endif %}}
+<h3><img src="../pic.jpg" width="90%"></h3>
+-->
+<h1>Face and emotion detection in Web!</h1>
+<script>
+    function myFunction(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+           document.getElementById("test").innerHTML = '<h3><img src="{{ url_for('emotionDetectionTest') }}" width="90%"></h3>'
+
+        };
+        xhttp.open("GET", "ajax_info.txt", true);
+        xhttp.send();
+    }
+</script>
+
+<div id="test">
+    <button type = "button" onclick="myFunction()"> myFunction test </button>
+</div>
+
+
+<p> Emotion is shown in rectangle around face! (With some errors depending on lighting and face angles) </p>
+{% endblock %}
