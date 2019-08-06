@@ -5,7 +5,7 @@ with the emotion detected in the face printed on the rectangle.
 
 import cv2
 import imutils
-
+import time
 
 def emotionDetection():
     # Initialise video capture with OpenCV
@@ -27,6 +27,7 @@ def emotionDetection():
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         face = faceCascade.detectMultiScale(gray)
+        old_emotion = "None"
 
         if len(face) == 1:
             # Draw rectangle around face
@@ -35,6 +36,7 @@ def emotionDetection():
                 gray = gray[y:y + h, x:x + w] #Cut rectangle to face size
                 gray = cv2.resize(gray, (350, 350))
                 label, confidence = fisher_face.predict(gray) #Get current emotion in face
+
                 cv2.putText(frame, emotions[label], (x, y),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.65, (0, 255, 0), 1) #Put emotion found in face on rectangle containing face
 
@@ -49,3 +51,4 @@ def emotionDetection():
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
+

@@ -1,7 +1,7 @@
-from flask import Flask, render_template, Response, redirect, jsonify, request
+from flask import Flask, render_template, Response, jsonify, request
 from emotionDetectionWeb import emotionDetection
 from webpage.recordWeb import VideoCamera
-from playVideo import play
+from webpage.playVideo import play
 import os
 import glob
 
@@ -9,6 +9,8 @@ import glob
 app = Flask(__name__)
 variable = False
 vc = None
+stats = []
+count = 0
 
 @app.route('/')
 def home():
@@ -18,7 +20,6 @@ def home():
 @app.route('/library')
 def library():
     #Retrieve just the name of each file in the library and pass that to the jija2/html block to display it in a button
-    index = 0
     displayFiles=[]
     files = glob.glob("/Users/yenji/Desktop/Emotion-Detection/Library/*")
     for file in files:
@@ -27,10 +28,10 @@ def library():
     return render_template('library.html', displayFiles=displayFiles)
 
 
-#Working here
 @app.route('/library/<file>')
 def libraryFile(file):
     return render_template('libraryVideoViewer.html', file=file)
+
 
 @app.route('/libraryVideoPlay/<file>')
 def libraryVideoPlay(file):
@@ -39,12 +40,17 @@ def libraryVideoPlay(file):
     return Response(play(path),
              mimetype='multipart/x-mixed-replace; boundary=frame')
 
-#@app.route('/libraryMethods', methods = ['POST'])
-#def libraryMethods():
-    #json = request.get_json()
-    #status = json['status']
-    #print(status)
-    #return jsonify(result="test")
+
+@app.route('/statistics')
+def statistics():
+    return render_template('stats.html')
+
+
+@app.route('/chartsData')
+def chartData():
+    global stats
+    results = stats[0]  #Only the first element of the array is displayed for now.
+    return jsonify({'results': results})
 
 @app.route('/emotionDetectionWeb')
 def emotionDetectionWeb():
@@ -54,8 +60,9 @@ def emotionDetectionWeb():
 @app.route('/recorder', methods = ['POST'])
 def recorder():
     global vc
+    global stats
     if vc == None:
-        video_camera = VideoCamera()
+        vc = VideoCamera()
     vc = VideoCamera()
     json = request.get_json()
 
@@ -66,6 +73,9 @@ def recorder():
         return jsonify(result="started")
     else:
         vc.stop_record()
+        times = vc.getTimes()
+        stats.append(times)
+        print("Stopped, Times: " + str(stats))
         return jsonify(result="stopped")
 
 
@@ -73,7 +83,6 @@ def recorder():
 def video_viewer():
     return Response(emotionDetection(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-    return 'test'
 
 
 if __name__ == '__main__':
